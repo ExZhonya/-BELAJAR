@@ -6,7 +6,7 @@ from dotenv import load_dotenv
 
 load_dotenv()
 TOKEN = os.getenv("DISCORD_TOKEN")
-bot = commands.Bot(command_prefix="!", intents=discord.Intents.all())
+bot = commands.Bot(command_prefix=",", intents=discord.Intents.all())
 
 async def load_file():
     print("Loading cogs...")
@@ -21,10 +21,10 @@ async def load_file():
             await bot.load_extension(f"events.{file[:-3]}")
             print(f"Loaded: {file}")
 
-    for file in os.listdir("./utils"):
-        if file.endswith(".py"):
-            await bot.load_extension(f"utils.{file[:-3]}")
-            print(f"Loaded: {file}")
+    # for file in os.listdir("./utils"):
+    #     if file.endswith(".py"):
+    #         await bot.load_extension(f"utils.{file[:-3]}")
+    #         print(f"Loaded: {file}")
 
     print("All cogs loaded.")
 
