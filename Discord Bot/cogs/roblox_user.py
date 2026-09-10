@@ -8,11 +8,11 @@ class Roblox(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
-    @commands.command()
-    async def rblx(self, ctx, *, query):
-        msg = await ctx.send(f"Searching `{query}`...")
+    @commands.command(aliases=['user', 'roblox'])
+    async def rblx(self, ctx, *, user):
+        msg = await ctx.send(f"Searching `{user}`...")
 
-        user = get_user(query)
+        user = get_user(user)
         if not user:
             return await msg.edit(content="User not found", embed=None)
 

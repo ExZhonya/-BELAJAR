@@ -1,13 +1,13 @@
 import requests
 
-def get_user(query):
-    if query.isdigit():
-        user_id = int(query)
+def get_user(user):
+    if user.isdigit():
+        user_id = int(user)
     else:
         r = requests.post(
             "https://users.roblox.com/v1/usernames/users",
             json={
-                "usernames": [query],
+                "usernames": [user],
                 "excludeBannerUsers": False
             }
         )
