@@ -53,11 +53,11 @@ class Base:
 
 		print("===== NPC =====")
 		if player.trader:
-			print("1. Trader")
+			print("- Trader")
 		elif player.hunter:
-			print("2. Hunter")
+			print("- Hunter")
 		elif player.lumberjack:
-			print("3. Lumberjack")
+			print("- Lumberjack")
 		print("0. Back")
 
 		x = u.getch()
@@ -71,6 +71,9 @@ class Base:
 			Base.camp()
 		else:
 			Base.NPC()
+
+	def trader():
+		pass
 
 if __name__ == '__main__':
 	Base.camp()
