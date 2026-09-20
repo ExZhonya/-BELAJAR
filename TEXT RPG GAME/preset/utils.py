@@ -28,3 +28,18 @@ def _delay_print(text, delay):
 def v_fast_print(text): _delay_print(text, 0.01)
 def fast_print(text):   _delay_print(text, 0.03)
 def slow_print(text):   _delay_print(text, 0.05)
+
+SILVER = 100          # 1 Silver = 100 Bronze
+GOLD = 100 * SILVER   # 1 Gold = 100 Silver = 10,000 Bronze
+
+def cost(gold=0, silver=0, bronze=0):
+	return gold * GOLD + silver * SILVER + bronze
+
+def money_text(bronze):
+	g, rest = divmod(bronze, GOLD)
+	s, b = divmod(rest, SILVER)
+	parts = []
+	if g: parts.append(f"{g} Gold")
+	if s: parts.append(f"{s} Silver")
+	if b or not parts: parts.append(f"{b} Bronze")
+	return " ".join(parts)

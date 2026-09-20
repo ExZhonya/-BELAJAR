@@ -8,7 +8,7 @@ class Base:
 		u.clear()
 		print(rf"""
 		You are in the Camp.
-		Fuel: {player.fuel}  Food: {player.food}  Health: {player.health} Money: {player.money}
+		Fuel: {player.fuel}  Food: {player.food}  Health: {player.health} Money: {u.money_text(player.money)}
 		1. Find Fuel
 		2. Find Food
 		3. Explore

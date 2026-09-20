@@ -3,14 +3,15 @@ from preset import utils as u
 class NPC:
 	@staticmethod
 	def Trader():
+		from preset import shop as s
 		u.clear()
 		print("Welcome, Adventurer! I have everything you need.\nWhat do you want to buy?")
 		print(f"{'-'*10}\n1.Weapon\n2.Armor\n3.Food\n0.Back")
 		x = u.getch()
 		if x == "1":
-			pass
+			s.shop.Weapon()
 		elif x == "2":
-			pass
+			s.shop.Armor()
 		elif x == "3":
 			pass
 		elif x == "0":
