@@ -9,4 +9,8 @@ class Player:
 		self.lumberjack = False
 		self.base = True
 
+	def player(self):
+		weapon = {}
+		armor = {}
+
 player = Player()
