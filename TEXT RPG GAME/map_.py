@@ -21,7 +21,7 @@ class Base:
 		elif x == "2":
 			Base.find_food()
 		elif x == "3":
-			Base.camp()
+			Base.explore()
 		elif x == "9":
 			Base.NPC()
 		elif x == "0":
@@ -33,6 +33,7 @@ class Base:
 
 	@staticmethod
 	def chop_wood():
+		u.clear()
 		gained = random.randint(1, 3)
 		player.fuel += gained
 		u.slow_print(f"You gain {gained} fuel.")
@@ -41,9 +42,19 @@ class Base:
 
 	@staticmethod
 	def find_food():
+		u.clear()
 		gained = random.randint(1, 3)
 		player.food += gained
 		u.slow_print(f"You gain {gained} food.")
+		u.getch()
+		Base.camp()
+
+	@staticmethod
+	def explore():
+		u.clear()
+		gained = random.randint(1,3)
+		player.money += gained
+		u.slow_print(f"You gained {gained} money.")
 		u.getch()
 		Base.camp()
 
