@@ -49,20 +49,21 @@ class Base:
 
 	@staticmethod
 	def NPC():
+		import preset.npc_dia as n
 		u.clear()
 
 		print("===== NPC =====")
 		if player.trader:
-			print("- Trader")
+			print("1. Trader")
 		elif player.hunter:
-			print("- Hunter")
+			print("2. Hunter")
 		elif player.lumberjack:
-			print("- Lumberjack")
+			print("3. Lumberjack")
 		print("0. Back")
 
 		x = u.getch()
 		if x == "1" and player.trader:
-			pass
+			n.NPC.Trader()
 		elif x == "2" and player.hunter:
 			pass
 		elif x == "3" and player.lumberjack:
@@ -71,9 +72,6 @@ class Base:
 			Base.camp()
 		else:
 			Base.NPC()
-
-	def trader():
-		pass
 
 if __name__ == '__main__':
 	Base.camp()
