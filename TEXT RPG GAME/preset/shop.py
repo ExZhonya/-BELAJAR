@@ -32,8 +32,7 @@ def _browse(category, items):
 
 		x = u.getch()
 		if x == "0":
-			import npc_dia as n
-			n.NPC.Trader()
+			return
 		if x not in items:
 			msg = ""
 			continue

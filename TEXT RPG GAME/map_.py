@@ -1,5 +1,6 @@
 import random
 from preset import utils as u
+from preset import npc_dia as n
 from plr.player import player
 
 class Base:
@@ -25,11 +26,8 @@ class Base:
 		elif x == "9":
 			Base.NPC()
 		elif x == "0":
-			from preset import wc_gb
-			wc_gb.bye_asc()
-			wc_gb.bye_text()
-		else:
-			Base.camp()
+			return False
+		return True
 
 	@staticmethod
 	def chop_wood():
@@ -38,7 +36,6 @@ class Base:
 		player.fuel += gained
 		u.slow_print(f"You gain {gained} fuel.")
 		u.getch()
-		Base.camp()
 
 	@staticmethod
 	def find_food():
@@ -47,42 +44,38 @@ class Base:
 		player.food += gained
 		u.slow_print(f"You gain {gained} food.")
 		u.getch()
-		Base.camp()
 
 	@staticmethod
 	def explore():
 		u.clear()
-		gained = random.randint(1,3)
+		gained = random.randint(1, 3)
 		player.money += gained
 		u.slow_print(f"You gained {gained} money.")
 		u.getch()
-		Base.camp()
 
 	@staticmethod
 	def NPC():
-		import preset.npc_dia as n
-		u.clear()
+		while True:
+			u.clear()
+			print("===== NPC =====")
+			if player.trader:
+				print("1. Trader")
+			if player.hunter:
+				print("2. Hunter")
+			if player.lumberjack:
+				print("3. Lumberjack")
+			print("0. Back")
 
-		print("===== NPC =====")
-		if player.trader:
-			print("1. Trader")
-		elif player.hunter:
-			print("2. Hunter")
-		elif player.lumberjack:
-			print("3. Lumberjack")
-		print("0. Back")
-
-		x = u.getch()
-		if x == "1" and player.trader:
-			n.NPC.Trader()
-		elif x == "2" and player.hunter:
-			pass
-		elif x == "3" and player.lumberjack:
-			pass
-		elif x == "0":
-			Base.camp()
-		else:
-			Base.NPC()
+			x = u.getch()
+			if x == "1" and player.trader:
+				n.NPC.Trader()
+			elif x == "2" and player.hunter:
+				pass
+			elif x == "3" and player.lumberjack:
+				n.NPC.Lumberjack()
+			elif x == "0":
+				return
 
 if __name__ == '__main__':
-	Base.camp()
+	while Base.camp():
+		pass

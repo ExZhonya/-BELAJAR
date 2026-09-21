@@ -18,7 +18,6 @@ def start():
 	print(".")
 	time.sleep(1.5)
 	u.slow_print("You slowly opens your eyes and sees that you're in some kind of camp.")
-	import map_ as m
-	m.Base.camp()
+	u.getch()
 
 

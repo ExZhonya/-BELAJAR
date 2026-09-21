@@ -4,7 +4,7 @@ from preset import utils as u
 
 def welc_asc():
 	u.clear()
-	u.fast_print(r"""
+	u.v_fast_print(r"""
 			,-.-.     ,----.              _,.----.     _,.---._           ___      ,----.  
 	,-..-.-./  \==\ ,-.--` , \   _.-.    .' .' -   \  ,-.' , -  `.  .-._ .'=.'\  ,-.--` , \ 
 	|, \=/\=|- |==||==|-  _.-` .-,.'|   /==/  ,  ,-' /==/_,  ,  - \/==/ \|==|  ||==|-  _.-` 
@@ -30,14 +30,15 @@ def welc_text():
 
 	if x == "1":
 		cs.start()
+		return True
 	elif x == "2":
-		return
+		return False
 
 
 
 def bye_asc():
 	u.clear()
-	u.fast_print(r"""
+	u.v_fast_print(r"""
         ,----,                                                              
       ,/   .`|       ,--,                        ,--.       ,--.            
     ,`   .'  :     ,--.'|   ,---,              ,--.'|   ,--/  /| .--.--.    
