@@ -3,16 +3,22 @@ from preset import utils as u
 from preset import npc_dia as n
 from plr.player import player
 
+UNLOCKS = {
+	3: ("lumberjack", "A lumberjack wandered into camp and offers his services."),
+	6: ("hunter", "A Hunter has set up a tent near your camp."),
+}
+
 class Base:
 	@staticmethod
 	def camp():
 		u.clear()
 		print(rf"""
-		You are in the Camp.
+		You are in the Camp. | Day: {player.day}
 		Fuel: {player.fuel}  Food: {player.food}  Health: {player.health} Money: {u.money_text(player.money)}
 		1. Find Fuel
 		2. Find Food
 		3. Explore
+		4. Rest (End the day.)
 		9. NPC
 		0. Quit(No Save!)
 		""")
@@ -27,7 +33,41 @@ class Base:
 			Base.NPC()
 		elif x == "0":
 			return False
-		return True
+		return player.health > 0
+
+	@staticmethod
+	def rest():
+		u.clear()
+		player.day += 1
+		fed = warm = True
+
+		if player.food >= 5:
+			player.food -= 5
+		else:
+			fed = False
+			player.health -= 10
+			u.slow_print("You went to sleep hungry. | -10 health")
+
+		if player.fuel >= 10:
+			player.fuel -= 10
+		else:
+			warm = False
+			player.health -= 10
+			u.slow_print("The fire died and the night was freezing!")
+
+		if fed and warm:
+			healed = min(10, player.MAX_HEALTH - player.health)
+			player.health += healed
+			u.slow_print(f"You slept well. | +{healed} Health" if healed else "You slept well")
+
+		if player.day in UNLOCKS:
+			attr, text = UNLOCKS[player.day]
+			setattr(player, attr, True)
+			u.slow_print(text)
+
+		if player.health <= 0:
+			u.slow_print("You didn't survive the night...")
+		u.getch()
 
 	@staticmethod
 	def chop_wood():
