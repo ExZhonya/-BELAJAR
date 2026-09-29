@@ -73,7 +73,7 @@ class NPC:
 			x = u.getch()
 			if x == "0":
 				return
-			if x not in LUMBER:
+			if x not in HUNTER:
 				msg = ""
 				continue
 
