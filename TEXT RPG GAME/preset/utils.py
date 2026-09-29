@@ -6,14 +6,20 @@ def clear():
 if sys.platform == "win32":
 	import msvcrt
 	def getch():
-		return msvcrt.getch().decode('utf-8')
+		ch = msvcrt.getch()
+		if ch == b'\x03':                      # Ctrl+C
+			raise KeyboardInterrupt
+		if ch in (b'\x00', b'\xe0'):           # arrow / function keys send 2 bytes
+			msvcrt.getch()
+			return ""
+		return ch.decode('utf-8', errors='ignore')
 else:
 	import tty, termios
 	def getch():
 		fd = sys.stdin.fileno()
 		old_settings = termios.tcgetattr(fd)
 		try:
-			tty.setraw(fd)
+			tty.setcbreak(fd)                  # cbreak keeps Ctrl+C working (setraw doesn't)
 			return sys.stdin.read(1)
 		finally:
 			termios.tcsetattr(fd, termios.TCSADRAIN, old_settings)
