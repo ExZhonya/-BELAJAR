@@ -3,9 +3,12 @@ from map_ import Base
 
 def main():
 	wc.welc_asc()
-	if wc.welc_text():
-		while Base.camp():
-			pass
+	try:
+		if wc.welc_text():
+			while Base.camp():
+				pass
+	except KeyboardInterrupt:
+		pass
 	wc.bye_asc()
 	wc.bye_text()
 
