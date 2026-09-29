@@ -70,7 +70,7 @@ class Base:
 			if x == "1" and player.trader:
 				n.NPC.Trader()
 			elif x == "2" and player.hunter:
-				pass
+				n.NPC.Hunter()
 			elif x == "3" and player.lumberjack:
 				n.NPC.Lumberjack()
 			elif x == "0":

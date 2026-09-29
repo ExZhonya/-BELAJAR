@@ -8,6 +8,12 @@ LUMBER = {
 	"3": (30, 30),
 }
 
+HUNTER = {
+	"1": (10,10),
+	"2": (20, 20),
+	"3": (30, 30),
+}
+
 class NPC:
 	@staticmethod
 	def Trader():
@@ -51,6 +57,33 @@ class NPC:
 				msg = f"Will be done soon, boss! | +{wood} Wood"
 			else:
 				msg = "You don't have enough money, boss."
+
+	@staticmethod
+	def Hunter():
+		msg = ""
+		while True:
+			u.clear()
+			print("Hello, Adventurer. Perhaps you need some meat?")
+			for key, (meat, price) in HUNTER.items():
+				print(f"{key}.+{meat} Food | {u.money_text(price)}")
+			print("0.Back")
+			if msg:
+				print(f"\n{msg}")
+
+			x = u.getch()
+			if x == "0":
+				return
+			if x not in LUMBER:
+				msg = ""
+				continue
+
+			meat, price = HUNTER[x]
+			if player.money >= price:
+				player.money -= price
+				player.food += meat
+				msg = f"Thank you for your purchase. | +{meat} Food"
+			else:
+				msg = "Sorry, you don't have enough money."
 
 if __name__ == '__main__':
 	NPC.Trader()
