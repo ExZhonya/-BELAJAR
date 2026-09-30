@@ -7,9 +7,9 @@ if sys.platform == "win32":
 	import msvcrt
 	def getch():
 		ch = msvcrt.getch()
-		if ch == b'\x03':                      # Ctrl+C
+		if ch == b'\x03':
 			raise KeyboardInterrupt
-		if ch in (b'\x00', b'\xe0'):           # arrow / function keys send 2 bytes
+		if ch in (b'\x00', b'\xe0'):
 			msvcrt.getch()
 			return ""
 		return ch.decode('utf-8', errors='ignore')
@@ -19,7 +19,7 @@ else:
 		fd = sys.stdin.fileno()
 		old_settings = termios.tcgetattr(fd)
 		try:
-			tty.setcbreak(fd)                  # cbreak keeps Ctrl+C working (setraw doesn't)
+			tty.setcbreak(fd)
 			return sys.stdin.read(1)
 		finally:
 			termios.tcsetattr(fd, termios.TCSADRAIN, old_settings)
