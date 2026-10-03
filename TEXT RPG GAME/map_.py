@@ -29,6 +29,8 @@ class Base:
 			Base.find_food()
 		elif x == "3":
 			Base.explore()
+		elif x =="4":
+			Base.rest()
 		elif x == "9":
 			Base.NPC()
 		elif x == "0":
