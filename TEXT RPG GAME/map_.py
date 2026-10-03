@@ -7,6 +7,7 @@ from plr.player import player
 UNLOCKS = {
 	3: ("lumberjack", "A lumberjack wandered into camp and offers his services."),
 	6: ("hunter", "A Hunter has set up a tent near your camp."),
+	10:("trader", "A humble trader has come to your peaceful camp.")
 }
 
 def _consume(resource, need, msg):
@@ -15,7 +16,7 @@ def _consume(resource, need, msg):
 		setattr(player, resource, have - need)
 		return True
 	setattr(player, resource, 0)
-	damage = b.shortage_dmg(-damage)
+	damage = b.shortage_dmg(need - have)
 	player.change_health(-damage)
 	u.slow_print(f"{msg} (-{damage} Health)")
 	return False
@@ -67,9 +68,12 @@ class Base:
 		warm = _consume("fuel", b.fuel_needed(player.day), "You are cold.")
 		player.day += 1
 		_rest_heal(fed, warm)
-		_check_unlock()
+		u.getch()
 		if not player.is_alive():
+			u.clear()
 			u.slow_print("You didn't survive the night...")
+			return
+		_check_unlock()
 		u.getch()
 
 	@staticmethod

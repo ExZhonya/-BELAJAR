@@ -17,7 +17,7 @@ class Player:
 	
 	def change_health(self, amount):
 		original = self.health
-		self.health = max(0, min(self.max_health, original + amount))
+		self.health = max(0, min(self.health, original + amount))
 		return self.health - original
 
 	def is_alive(self):
