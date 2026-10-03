@@ -60,7 +60,7 @@ class Base:
 		if fed and warm:
 			healed = min(10, player.MAX_HEALTH - player.health)
 			player.health += healed
-			u.slow_print(f"You slept well. | +{healed} Health" if healed else "You slept well")
+			u.slow_print(f"You slept well. | +{healed} Health | -" if healed else "You slept well")
 
 		if player.day in UNLOCKS:
 			attr, text = UNLOCKS[player.day]

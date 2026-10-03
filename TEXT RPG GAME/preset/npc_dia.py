@@ -1,6 +1,6 @@
 from preset import utils as u
 from preset.utils import cost, money_text
-from preset.shop import Shop as s
+from preset.shop import shop as s
 from preset import balance as b
 from plr.player import player
 

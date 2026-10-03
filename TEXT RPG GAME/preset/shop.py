@@ -39,14 +39,14 @@ def _browse(category, items):
 
 		name, price = items[x]
 		if name in player.inventory[category]:
-			setattr(player, category, name)          # already owned > just equip
+			setattr(player, category, name)				# already owned > just equip
 			msg = f"You equipped {name}."
 		elif player.money < price:
 			msg = "You don't have enough money."
 		else:
 			player.money -= price
 			player.inventory[category].append(name)
-			setattr(player, category, name)          # auto-equip what you buy
+			setattr(player, category, name)				# auto-equip what you buy
 			msg = f"You bought {name}!"
 
 class shop:
