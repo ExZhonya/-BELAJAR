@@ -1,12 +1,35 @@
 import random
 from preset import utils as u
 from preset import npc_dia as n
+from preset import balance as b
 from plr.player import player
 
 UNLOCKS = {
 	3: ("lumberjack", "A lumberjack wandered into camp and offers his services."),
 	6: ("hunter", "A Hunter has set up a tent near your camp."),
 }
+
+def _consume(resource, need, msg):
+	have = getattr(player, resource)
+	if have >= need:
+		setattr(player, resource, have - need)
+		return True
+	setattr(player, resource, 0)
+	damage = b.shortage_dmg(-damage)
+	player.change_health(-damage)
+	u.slow_print(f"{msg} (-{damage} Health)")
+	return False
+
+def _rest_heal(fed, warm):
+	if fed and warm:
+		healed = player.change_health(10)
+		u.slow_print(f"You slept well. | +{healed} Health" if healed else "You slept well")
+
+def _check_unlock():
+	if player.day in UNLOCKS:
+		attr, text = UNLOCKS[player.day]
+		setattr(player, attr, True)
+		u.slow_print(text)
 
 class Base:
 	@staticmethod
@@ -76,7 +99,7 @@ class Base:
 		u.clear()
 		gained = random.randint(1, 3)
 		player.fuel += gained
-		u.slow_print(f"You gain {gained} fuel.")
+		u.fast_print(f"You gain {gained} fuel.")
 		u.getch()
 
 	@staticmethod
@@ -84,7 +107,7 @@ class Base:
 		u.clear()
 		gained = random.randint(1, 3)
 		player.food += gained
-		u.slow_print(f"You gain {gained} food.")
+		u.fast_print(f"You gain {gained} food.")
 		u.getch()
 
 	@staticmethod
@@ -92,7 +115,7 @@ class Base:
 		u.clear()
 		gained = random.randint(1, 3)
 		player.money += gained
-		u.slow_print(f"You gained {gained} money.")
+		u.fast_print(f"You gained {gained} money.")
 		u.getch()
 
 	@staticmethod
