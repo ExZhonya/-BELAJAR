@@ -5,15 +5,20 @@ from preset import balance as b
 from plr.player import player
 
 LUMBER = {
-	"1": (10, 10),
-	"2": (20, 20),
-	"3": (30, 30),
+	"1": (10, cost(bronze=10)),
+	"2": (20, cost(bronze=20)),
+	"3": (30, cost(bronze=30)),
 }
 
 HUNTER = {
-	"1": (10,10),
-	"2": (20, 20),
-	"3": (30, 30),
+	"1": (10, cost(bronze=10)),
+	"2": (20, cost(bronze=20)),
+	"3": (30, cost(bronze=30)),
+}
+
+TRADER_FOOD = {
+	"1": (5,  cost(bronze=15)),
+	"2": (10, cost(bronze=30)),
 }
 
 def _buy_menu(greeting, items, resources, labels, bought, broke):
@@ -56,9 +61,42 @@ class NPC:
 			elif x == "2":
 				s.Armor()
 			elif x == "3":
-				pass
+				_buy_menu("Fresh supplies, just for you!", TRADER_FOOD, "food", "Food",
+				          "Pleasure doing business!", "Come back when you have the coin.")
 			elif x == "0":
 				return
+
+	@staticmethod
+	def Blacksmith():
+		msg = ""
+		while True:
+			u.clear()
+			print("Hmph. Want me to toughen you up, Adventurer?")
+			print(f"Health: {player.health}/{player.max_health}   Money: {money_text(player.money)}\n")
+			maxed = b.health_maxed(player.max_health)
+			if maxed:
+				print("You're as tough as I can make you.")
+			else:
+				print(f"1.+{b.HEALTH_STEP} Max Health | {money_text(b.health_upgrade_price(player.max_health))}")
+			print("0.Back")
+			if msg:
+				print(f"\n{msg}")
+
+			x = u.getch()
+			if x == "0":
+				return
+			if x != "1" or maxed:
+				msg = ""
+				continue
+
+			price = b.health_upgrade_price(player.max_health)
+			if player.money >= price:
+				player.money -= price
+				player.max_health += b.HEALTH_STEP
+				player.change_health(b.HEALTH_STEP)      # new health is also filled in
+				msg = f"Stronger already. | +{b.HEALTH_STEP} Max Health"
+			else:
+				msg = "Come back with more coin."
 
 	@staticmethod
 	def Lumberjack():
