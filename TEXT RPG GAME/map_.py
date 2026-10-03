@@ -63,34 +63,12 @@ class Base:
 	@staticmethod
 	def rest():
 		u.clear()
+		fed = _consume("food", b.food_needed(player.day), "You went to sleep hungry")
+		warm = _consume("fuel", b.fuel_needed(player.day), "You are cold.")
 		player.day += 1
-		fed = warm = True
-
-		if player.food >= 5:
-			player.food -= 5
-		else:
-			fed = False
-			player.health -= 10
-			u.slow_print("You went to sleep hungry. | -10 health")
-
-		if player.fuel >= 10:
-			player.fuel -= 10
-		else:
-			warm = False
-			player.health -= 10
-			u.slow_print("The fire died and the night was freezing!")
-
-		if fed and warm:
-			healed = min(10, player.MAX_HEALTH - player.health)
-			player.health += healed
-			u.slow_print(f"You slept well. | +{healed} Health | -" if healed else "You slept well")
-
-		if player.day in UNLOCKS:
-			attr, text = UNLOCKS[player.day]
-			setattr(player, attr, True)
-			u.slow_print(text)
-
-		if player.health <= 0:
+		_rest_heal(fed, warm)
+		_check_unlock()
+		if not player.is_alive():
 			u.slow_print("You didn't survive the night...")
 		u.getch()
 
