@@ -1,5 +1,7 @@
 from preset import utils as u
-from preset.shop import shop as s
+from preset.utils import cost, money_text
+from preset.shop import Shop as s
+from preset import balance as b
 from plr.player import player
 
 LUMBER = {
@@ -13,6 +15,33 @@ HUNTER = {
 	"2": (20, 20),
 	"3": (30, 30),
 }
+
+def _buy_menu(greeting, items, resources, labels, bought, broke):
+	msg = ""
+	while True:
+		u.clear()
+		print(greeting)
+		print(f"money: {money_text(player.money)}\n")
+		for key, (amount, price) in items.items():
+			print(f"{key}.{amount} {labels} | {money_text(price)}")
+		print("0. Back")
+		if msg:
+			print(f"\n{msg}")
+
+		x = u.getch()
+		if x == "0":
+			return
+		if x not in items:
+			msg = ""
+			continue
+
+		amount, price = items[x]
+		if player.money >= price:
+			player.money -= price
+			setattr(player, resources, getattr(player, resources) + amount)
+			msg = f"{bought} | +{amount} {labels}"
+		else:
+			msg = broke
 
 class NPC:
 	@staticmethod
@@ -33,57 +62,13 @@ class NPC:
 
 	@staticmethod
 	def Lumberjack():
-		msg = ""
-		while True:
-			u.clear()
-			print("Ay, Adventurer! What do you need?")
-			for key, (wood, price) in LUMBER.items():
-				print(f"{key}.+{wood} Wood | {u.money_text(price)}")
-			print("0.Back")
-			if msg:
-				print(f"\n{msg}")
-
-			x = u.getch()
-			if x == "0":
-				return
-			if x not in LUMBER:
-				msg = ""
-				continue
-
-			wood, price = LUMBER[x]
-			if player.money >= price:
-				player.money -= price
-				player.fuel += wood
-				msg = f"Will be done soon, boss! | +{wood} Wood"
-			else:
-				msg = "You don't have enough money, boss."
+		_buy_menu("Ay, Adventurer! What do you need?", LUMBER, "fuel", "Wood",
+				  "Will be done soon, boss!", "You don't have enough money, boss.")
 
 	@staticmethod
 	def Hunter():
-		msg = ""
-		while True:
-			u.clear()
-			print("Hello, Adventurer. Perhaps you need some meat?")
-			for key, (meat, price) in HUNTER.items():
-				print(f"{key}.+{meat} Food | {u.money_text(price)}")
-			print("0.Back")
-			if msg:
-				print(f"\n{msg}")
-
-			x = u.getch()
-			if x == "0":
-				return
-			if x not in HUNTER:
-				msg = ""
-				continue
-
-			meat, price = HUNTER[x]
-			if player.money >= price:
-				player.money -= price
-				player.food += meat
-				msg = f"Thank you for your purchase. | +{meat} Food"
-			else:
-				msg = "Sorry, you don't have enough money."
+		_buy_menu("Hello, Adventurer. Perhaps you need some meat?", HUNTER, "food", "Food",
+				  "Thank you for your purchase.", "Sorry, you don't have enough money.")
 
 if __name__ == '__main__':
 	NPC.Trader()
